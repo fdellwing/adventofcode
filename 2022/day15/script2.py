@@ -1,5 +1,11 @@
-from scipy.spatial import distance
 import re
+
+
+def cityblock(a, b):
+    x1, y1 = a
+    x2, y2 = b
+    return abs(x1 - x2) + abs(y1 - y2)
+
 
 r = re.compile(r'.*?([0-9-]+).*?([0-9-]+).*?([0-9-]+).*?([0-9-]+)')
 
@@ -18,7 +24,7 @@ with open("input.txt") as f:
             device = (
                 (s_x, s_y),
                 (b_x, b_y),
-                distance.cityblock([s_x, s_y, 0], [b_x, b_y, 0])
+                cityblock((s_x, s_y), (b_x, b_y))
             )
             devices.append(device)
 
@@ -50,7 +56,7 @@ def check_possible_beacon(x, y):
     for device in devices:
         s_x, s_y = device[0]
         dis = device[2]
-        new = distance.cityblock([s_x, s_y, 0], [x, y, 0])
+        new = cityblock((s_x, s_y), (x, y))
         if new <= dis:
             return False
     return True
